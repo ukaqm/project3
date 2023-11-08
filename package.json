@@ -1,0 +1,23 @@
+{
+  "name": "groupproject2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tbsheff/GroupProject2.git"
+  },
+  "author": "Tyler Sheffield, Allan Foote, Rai Martin, Mikayla Randall",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tbsheff/GroupProject2/issues"
+  },
+  "homepage": "https://github.com/Tbsheff/GroupProject2#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "knex": "^3.0.1"
+  }
+}
