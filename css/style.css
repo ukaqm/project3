@@ -1181,8 +1181,8 @@ a:focus, a:hover {
 ==================================================================*/
 .service-2 .service-item {
   border: 1px solid #eee;
-  margin-bottom: 30px;
-  padding: 50px 20px;
+  height: 100%;
+  padding: 30px 20px;
   transition: all 0.3s ease 0s;
 }
 .service-2 .service-item:hover {
