@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
+	<title>Login</title>
 
-<!-- ====================== CSS ========================= -->
+	<!-- ====================== CSS ========================= -->
 	<!-- Themefisher Icon font -->
 	<link rel="stylesheet" href="/plugins/themefisher-font/style.css">
 	<!-- bootstrap.min css -->
@@ -18,34 +19,76 @@
 	<link rel="stylesheet" href="/plugins/slick/slick.css">
 	<!-- Main Stylesheet -->
 	<link rel="stylesheet" href="/css/style.css">
-<!--==================================================-->
+	<link rel="stylesheet" href="/css/loginstyle.css">
+	<!--==================================================-->
 
 </head>
 <body id="body">
+	<div id="preloader">
+		<div class="preloader">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<header class="navigation fixed-top" style="background-color: lightslategrey;">
+		<div class="container">
+			<!-- main nav -->
+			<nav class="navbar navbar-expand-lg navbar-light px-0">
+				<!-- logo -->
+				<a class="navbar-brand logo" href="NotRealIndex.html">
+					<img loading="lazy" class="logo-default" src="/images/logo.svg" alt="logo" />
+					<img loading="lazy" class="logo-white" src="/images/logo-white.svg" alt="logo" />
+				</a>
+				<!-- /logo -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+					aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
 
+				<div class="collapse navbar-collapse" id="navigation">
+					<ul class="navbar-nav ml-auto text-center">
+						<li class="nav-item ">
+							<a class="nav-link" href="/">Home</a>
+						</li>
+						<li class="nav-item ">
+							<a class="nav-link" href="/login">Login</a>
+						</li>
 
-    <div class="container d-flex align-items-center justify-content-center portfolio-filter" style="height: 100vh;">
-        <div class="row justify-content-center">
-            <form>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username">
-                </div>
+					</ul>
+				</div>
+			</nav>
+			<!-- /main nav -->
+		</div>
+	</header>
 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                </div>
+	<div class="container d-flex align-items-center justify-content-center portfolio-filter" style="height: 93vh;">
+		<div class="row justify-content-center">
+			<form action="/submit" method="post">
+				<div class="form-group">
+					<!-- <label for="username">Username</label> -->
+					<input type="text" class="form-control" id="username" name="username" placeholder="Username"
+						required>
+				</div>
 
-                <button type="submit" class="btn btn-main btn-block">Login</button>
-            </form>
-        </div>
-    </div>
+				<div class="form-group">
+					<!-- <label for="password">Password</label> -->
+					<input type="password" class="form-control" id="password" name="password" placeholder="Password"
+						required>
+				</div>
+
+				<button type="submit" class="btn btn-main btn-block" style="margin: 0;">Login</button>
+			</form>
+		</div>
+	</div>
 
 
 
 	<!-- ========== ESSENTIAL SCRIPTS ========== -->
-    <!-- Main jQuery -->
+	<!-- Main jQuery -->
 	<script src="plugins/jquery/jquery.min.js"></script>
 
 	<!-- Bootstrap4 -->
