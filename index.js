@@ -4,7 +4,8 @@ let app = express();
 
 let path = require("path");
 
-const port = 3000;
+//Changed port to specify what environment our application will be running on
+const port = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true}));
 
