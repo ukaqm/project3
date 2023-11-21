@@ -9,5 +9,13 @@ label {
 
 .nav-link {
     color: black;
-} 
+}
 
+.rideGrid {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.ride-col-1 {
+    grid-column: 1;
+}
