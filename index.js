@@ -7,13 +7,12 @@ let path = require("path");
 const knex = require("knex")({
     client: "pg",
     connection: {
-        host: "localhost",
-        user: "postgres",
-        password: "SuperUser",
-        database: "music",
+        host: "cougar-cruiser.postgres.database.azure.com",
+        user: "admin403",
+        password: "nq4yML^boKwZQCwG",
         port: 5432
     }
-});  
+});
 
 //Changed port to specify what environment our application will be running on
 const port = process.env.PORT || 3000;
