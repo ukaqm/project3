@@ -32,9 +32,11 @@
 	<!-- Main Stylesheet -->
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/loginstyles.css">
+	<link rel="stylesheet" href="/css/ridestyles.css">
 
 </head>
 <body id="body">
+
 
 	<!--
   Start Preloader
@@ -93,24 +95,69 @@ Fixed Navigation
 End Fixed Navigation
 ==================================== -->
 	<section class="service-2 section">
-		<div class="container">
-			<div class="rideGrid">
-				<p class="ride-col-1">Ride Origin</p>
-				<p></p>
-				<p class="ride-col-1">Departure Date</p>
-				<p></p>
-				<p class="ride-col-1">Ride Destination</p>
-				<p></p>
-				<p class="ride-col-1">Arrival Date</p>
-				<p></p>
-				<p class="ride-col-1">Driver Name</p>
-				<p></p>
-				<p class="ride-col-1">Driver Phone Number</p>
-				<p></p>
-				<p class="ride-col-1">Number of Passengers</p>
-				<p></p>
-			</div>
-		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>
+						Start City
+					</th>
+					<th>
+						Start State
+					</th>
+					<th>
+						Time Leaving
+					</th>
+					<th>
+						Date Leaving
+					</th>
+					<th>
+						End City
+					</th>
+					<th>
+						End State
+					</th>
+					<th>
+						Spots Remaining
+					</th>
+					<th>
+						Join Ride
+					</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
+					<tr>
+						<td>
+							<%= allRides[iCount].start_city %>
+						</td>
+						<td>
+							<%= allRides[iCount].start_state %>
+						</td>
+						<td>
+							<%= allRides[iCount].formattedTimeLeaving %>
+						</td>
+
+						<td>
+							<%= allRides[iCount].formattedDateLeaving %>
+						</td>
+
+						<td>
+							<%= allRides[iCount].end_city %>
+						</td>
+						<td>
+							<%= allRides[iCount].end_state %>
+						</td>
+						<td>
+							<%= allRides[iCount].spots_remaining%>
+						</td>
+						<td>
+							<a href="">Join Ride</a>
+						</td>
+					</tr>
+					<% } %>
+			</tbody>
+		</table>
 	</section>
 
 
@@ -123,11 +170,14 @@ End Fixed Navigation
 				<div class="row justify-content-around">
 					<div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
 						<h3>about</h3>
-						<p>At BYU Ride Board, we're dedicated to simplifying travel for students. Our platform fosters
+						<p>At BYU Ride Board, we're dedicated to simplifying travel for students.
+							<br>Our platform fosters
 							safe, eco-conscious rides,
-							connecting the BYU community. With a focus on safety and seamless experiences, we're
+							connecting the BYU community.
+							<br>With a focus on safety and seamless experiences, we're
 							redefining shared journeys, making
-							every ride an opportunity for connection and exploration.</p>
+							every ride an opportunity for connection and exploration.
+						</p>
 					</div>
 					<!-- End of .col-sm-3 -->
 
@@ -156,12 +206,10 @@ End Fixed Navigation
 	</footer> <!-- end footer -->
 
 
-	<!-- end Footer Area
-========================================== -->
 
-	<!-- 
-    Essential Scripts
-    =====================================-->
+
+
+
 	<!-- Main jQuery -->
 	<script src="/plugins/jquery/jquery.min.js"></script>
 
@@ -173,13 +221,10 @@ End Fixed Navigation
 	<script src="/plugins/lightbox2/js/lightbox.min.js"></script>
 	<!-- Owl Carousel -->
 	<script src="/plugins/slick/slick.min.js"></script>
-	<!-- filter -->
-	<script src="/filterizr/jquery.filterizr.min.js"></script>
+
 	<!-- Smooth Scroll js -->
 	<script src="/plugins/smooth-scroll/smooth-scroll.min.js"></script>
-	<!-- Google Map -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU"></script>
-	<script src="/plugins/google-map/gmap.js"></script>
+
 
 	<!-- Custom js -->
 	<script src="/js/script.js"></script>
