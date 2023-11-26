@@ -19,3 +19,7 @@ label {
 .ride-col-1 {
     grid-column: 1;
 }
+
+p {
+    margin-bottom: 0.02rem;
+}
