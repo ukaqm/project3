@@ -6,7 +6,7 @@ app.use(session({
     secret: 'asd;lfkja;ldfkjlk123389akjdhla987897akjh78111ih',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: false }
 }));
 
 
@@ -69,8 +69,11 @@ function formatTime(timeString) {
 }
 
 function isAuthenticated(req, res, next) {
+    console.log(req.session.user);
     if (req.session && req.session.user) {
+        console.log(req.session.user);
         return next(); // User is authenticated, proceed to the next function
+
     }
     // User is not authenticated
     res.redirect('/login');
@@ -119,6 +122,7 @@ app.post("/login", (req, res) => {
                 if (result) {
                     // Login successful
                     req.session.user = { username: user.username, id: user.student_id };
+                    console.log(req.session.user)
                     res.redirect('/rides');
 
                 } else {

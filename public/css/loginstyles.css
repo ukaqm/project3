@@ -23,3 +23,7 @@ label {
 p {
     margin-bottom: 0.02rem;
 }
+
+.login-row {
+    flex-direction: column;
+}

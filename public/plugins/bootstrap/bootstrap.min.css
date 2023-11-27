@@ -624,7 +624,6 @@ pre code {
 .row {
     display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
     row-gap: 2rem;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
