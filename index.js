@@ -95,7 +95,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => res.render("index"));
 
 app.get("/login", (req, res) =>
-    res.render("login"));
+    res.render("login", { req }));
 
 app.post("/login", (req, res) => {
     // Extract the username and plain text password from the request
@@ -189,7 +189,7 @@ app.get("/signup", (req, res) =>
 app.post("/signup", (req, res) => {
 
     // Extract the plain text password from the request
-    const plainTextPassword = req.body.password;
+    let plainTextPassword = req.body.password;
 
     // Hash the password
     bcrypt.hash(plainTextPassword, saltRounds, (err, hash) => {
@@ -232,6 +232,43 @@ app.post("/signup", (req, res) => {
             });
     });
 });
+
+
+app.get("/joinride/:ride_id", (req, res) => {
+    let rideId = req.params.ride_id;
+
+    knex.select(
+        'r.ride_id',
+        'r.start_state',
+        'r.start_city',
+        'r.start_zip',
+        'r.student_driver',
+        'r.date_leaving',
+        'r.time_leaving',
+        'r.end_city',
+        'r.end_state',
+        'r.end_zip',
+        'r.max_students',
+        knex.raw('COUNT(sr.student_id) AS current_students'),
+        knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining')
+    )
+        .from('ride as r')
+        .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
+        .where('r.ride_id', '=', rideId)  // Use the variable instead of req.params
+        .groupBy('r.ride_id')
+        .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
+        .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
+        .then(rides => {
+            const formattedRides = rides.map(ride => ({
+                ...ride,
+                formattedDateLeaving: formatDate(ride.date_leaving),
+                formattedTimeLeaving: formatTime(ride.time_leaving)
+            }));
+            console.log(formattedRides);
+            res.render("joinRide", { ride: formattedRides });
+        });
+});
+
 
 
 app.listen(port, () => console.log("Server is running"))
