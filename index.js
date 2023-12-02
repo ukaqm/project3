@@ -264,6 +264,7 @@ app.get("/joinride/:ride_id", (req, res) => {
                 formattedDateLeaving: formatDate(ride.date_leaving),
                 formattedTimeLeaving: formatTime(ride.time_leaving)
             }));
+            
             console.log(formattedRides);
             res.render("joinRide", { ride: formattedRides });
         });
