@@ -282,5 +282,63 @@ app.get('/logout', (req, res) => {
 });
 
 
+app.get('/account', isAuthenticated, (req, res) => {
+    knex.select(
+        's.student_id',
+        's.first_name',
+        's.last_name',
+        's.city',
+        's.state',
+        's.zip',
+        's.email',
+        's.phone_number',
+        'sec.username'
+    )
+        .from('student as s')
+        .join('security as sec', 'sec.student_id', 's.student_id')
+        .where('s.student_id', req.session.user.id)
+        .then(results => {
+            res.render('account', { allAccounts: results, user: req.session.user });
+        });
+});
 
-app.listen(port, () => console.log("Server is running"))
+app.post('/modify-user', isAuthenticated, (req, res) => {
+    console.log(req.body);
+    if (req.body.password != "") {
+        let plainTextPassword = req.body.password;
+
+        // Hash the password
+        bcrypt.hash(plainTextPassword, saltRounds, (err, hash) => {
+            if (err) {
+                res.status(500).json({ error: 'Error hashing password' });
+                return;
+            }
+
+            knex.transaction(trx => {
+                return trx('security')
+                    .where('student_id', req.session.user.id)
+                    .update({
+                        username: req.body.username,
+                        password: hash
+                    })
+                    .then(() => {
+                        return trx('student')
+                            .where('student_id', req.session.user.id)
+                            .update({
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name,
+                                city: req.body.city,
+                                state: req.body.state,
+                                zip: req.body.zip,
+                                email: req.body.email,
+                                phone_number: req.body.phone_number
+                            });
+                    });
+            })
+
+        });
+    }
+});
+
+
+app.listen(port, () => console.log("Server is running"));

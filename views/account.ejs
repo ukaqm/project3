@@ -113,64 +113,82 @@ Fixed Navigation
 End Fixed Navigation
 ==================================== -->
 	<section class="service-2 section">
-		<table>
+		<table class="table-style" id="survey-results-table">
 			<thead>
-				<tr>
-					<th>
-						Start City
-					</th>
-					<th>
-						Start State
-					</th>
-					<th>
-						Time Leaving
-					</th>
-					<th>
-						Date Leaving
-					</th>
-					<th>
-						End City
-					</th>
-					<th>
-						End State
-					</th>
-					<th>
-						Spots Remaining
-					</th>
-					<th>
-						Join Ride
-					</th>
 
-				</tr>
+				<th>
+					First name
+				</th>
+				<th>
+					Last Name
+				</th>
+				<th>
+					Email
+				</th>
+				<th>
+					Username
+				</th>
+				<th>
+					Edit
+				</th>
+				<th>
+					Delete
+				</th>
+
 			</thead>
 			<tbody>
-				<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
+				<% for (let iCount=0; iCount < allAccounts.length; iCount++) { %>
 					<tr>
 						<td>
-							<%= allRides[iCount].start_city %>
+							<%= allAccounts[iCount].first_name%>
 						</td>
 						<td>
-							<%= allRides[iCount].start_state %>
+							<%= allAccounts[iCount].last_name%>
 						</td>
 						<td>
-							<%= allRides[iCount].formattedTimeLeaving %>
+							<%= allAccounts[iCount].email%>
+						</td>
+						<td>
+							<%= allAccounts[iCount].username%>
 						</td>
 
-						<td>
-							<%= allRides[iCount].formattedDateLeaving %>
+						<td class="edit-td">
+							<button class="edit-btn btn" data-user-id="<%= allAccounts[iCount].user_id %>">Edit</button>
+						</td>
+						<td class="">
+							<form id="deleteLogoutUserForm"
+								action="/delete-logout-user/<%= allAccounts[iCount].user_id %>" method="POST"
+								class="edit-td" onsubmit="return confirmDeleteLogout()">
+								<input type="submit" name="Delete" value="Delete" class="btn delete-btn" />
+							</form>
+
+
 						</td>
 
-						<td>
-							<%= allRides[iCount].end_city %>
-						</td>
-						<td>
-							<%= allRides[iCount].end_state %>
-						</td>
-						<td>
-							<%= allRides[iCount].spots_remaining%>
-						</td>
-						<td>
-							<a href="/joinride/<%= allRides[iCount].ride_id%>">Join Ride</a>
+
+					</tr>
+					<tr class="edit-form" id="edit-form-<%= allAccounts[iCount].user_id %>" style="display: none;">
+						<td colspan="100%">
+							<form action="/modify-user" method="post" class="modify-user">
+								<label for="">First Name</label>
+								<input type="text" name="first_name" value="<%= allAccounts[iCount].first_name%>"
+									required>
+								<label for="">Last name</label>
+								<input type="text" name="last_name" value="<%= allAccounts[iCount].last_name%>"
+									required>
+								<label for="">Email</label>
+								<input type="email" name="email" value="<%= allAccounts[iCount].email%>" required>
+								<label for="">Username</label>
+								<input type="text" name="username" value="<%= allAccounts[iCount].last_name%>" required>
+								<label for="">Update Password</label>
+								<input type="password" name="password" value="">
+
+
+								<button type="submit" style="grid-column: 2;" class="btn" id="save-changes">Save
+									Changes</button>
+							</form>
+
+
 						</td>
 					</tr>
 					<% } %>
@@ -247,6 +265,37 @@ End Fixed Navigation
 	<!-- Custom js -->
 	<script src="/js/script.js"></script>
 
+	<script>
+		function confirmDeleteLogout() {
+			// Display a confirmation dialog
+			var confirmation = confirm("Are you sure you want to delete the user and log out?");
+
+			// If the user confirms, allow form submission; otherwise, cancel it
+			return confirmation;
+		}
+	</script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var editButtons = document.querySelectorAll('.edit-btn');
+
+			editButtons.forEach(function (button) {
+				button.addEventListener('click', function () {
+					var userId = this.getAttribute('data-user-id');
+					var editForm = document.getElementById('edit-form-' + userId);
+
+					// Toggle the display of the edit form
+					if (editForm.style.display === 'none') {
+						editForm.style.display = 'table-row';
+					} else {
+						editForm.style.display = 'none';
+					}
+				});
+			});
+
+			// Add logic for saving changes here
+			// ...
+		});
+	</script>
 
 </body>
 
