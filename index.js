@@ -338,6 +338,29 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
 
         });
     }
+    else {
+        knex.transaction(trx => {
+            return trx('security')
+                .where('student_id', req.session.user.id)
+                .update({
+                    username: req.body.username
+                })
+                .then(() => {
+                    return trx('student')
+                        .where('student_id', req.session.user.id)
+                        .update({
+                            first_name: req.body.first_name,
+                            last_name: req.body.last_name,
+                            city: req.body.city,
+                            state: req.body.state,
+                            zip: req.body.zip,
+                            email: req.body.email,
+                            phone_number: req.body.phone_number
+                        });
+                });
+        })
+
+    }
 });
 
 
