@@ -84,7 +84,7 @@ function isAuthenticated(req, res, next) {
 
 
 //Changed port to specify what environment our application will be running on
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -92,10 +92,10 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => res.render("index"));
+app.get("/", (req, res) => res.render("index", { user: req.session.user }));
 
 app.get("/login", (req, res) =>
-    res.render("login", { req }));
+    res.render("login", { user: req.session.user }));
 
 app.post("/login", (req, res) => {
     // Extract the username and plain text password from the request
@@ -166,14 +166,14 @@ app.get("/rides", isAuthenticated, (req, res) => {
                 formattedTimeLeaving: formatTime(ride.time_leaving)
             }));
             console.log(formattedRides);
-            res.render("rideDetails", { allRides: formattedRides });
+            res.render("rideDetails", { allRides: formattedRides, user: req.session.user });
         })
 
 }
 );
 
 app.get("/newRide", (req, res) =>
-    res.render("addRide"));
+    res.render("addRide", { user: req.session.user }));
 
 app.post("/newRide", (req, res) => {
     knex("ride").insert(req.body).then(rides => {
@@ -183,7 +183,7 @@ app.post("/newRide", (req, res) => {
 );
 
 app.get("/signup", (req, res) =>
-    res.render("signUp"));
+    res.render("signUp", { user: req.session.user }));
 
 
 app.post("/signup", (req, res) => {
@@ -264,10 +264,21 @@ app.get("/joinride/:ride_id", (req, res) => {
                 formattedDateLeaving: formatDate(ride.date_leaving),
                 formattedTimeLeaving: formatTime(ride.time_leaving)
             }));
-            
+
             console.log(formattedRides);
-            res.render("joinRide", { ride: formattedRides });
+            res.render("joinRide", { ride: formattedRides, user: req.session.user });
         });
+});
+
+// log out of session
+app.get('/logout', (req, res) => {
+    // Clears session to log the user out
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+        }
+        res.redirect('/');
+    });
 });
 
 
