@@ -16,14 +16,15 @@ let path = require("path");
 let knex = require("knex")({
     client: "pg",
     connection: {
-        host: "cougar-cruiser.postgres.database.azure.com",
-        user: "admin403",
-        password: "nq4yML^boKwZQCwG",
-        database: "cougar_cruiser",
-        port: 5432
+        host: process.env.RDS_HOSTNAME || "localhost",
+        user: process.env.RDS_USERNAME || "postgres",
+        password: process.env.RDS_PASSWORD || "Monomyth777$",
+        database: process.env.RDS_DB_NAME || "cougar",
+        port: process.env.RDS_PORT || 5432
     },
     debug: true
 });
+
 
 let bcrypt = require('bcrypt');
 let saltRounds = 10;
@@ -102,7 +103,7 @@ app.post("/login", (req, res) => {
     const { username, password } = req.body;
 
     // Retrieve the user's hashed password from the database
-    knex.select('*').from('security').where({ username })
+    knex.select('*').from('security_table').where({ username })
         .then(users => {
             if (users.length === 0) {
                 res.status(401).json({ error: 'Invalid username or password' });
@@ -144,9 +145,9 @@ app.get("/rides", isAuthenticated, (req, res) => {
         'r.start_state',
         'r.start_city',
         'r.start_zip',
-        'r.student_driver',
-        'r.date_leaving',
-        'r.time_leaving',
+        'r.driver_id',
+        'r.start_time',
+        'r.start_date',
         'r.end_city',
         'r.end_state',
         'r.end_zip',
@@ -216,7 +217,7 @@ app.post("/signup", (req, res) => {
                     // insert into the Security table
                     console.log('Inserted student ID:', studentIds[0]);
 
-                    return trx('security').insert({
+                    return trx('security_table').insert({
                         username: req.body.username,
                         password: hash,
                         student_id: studentIds[0].student_id  // Use the returned student_id
@@ -243,8 +244,8 @@ app.get("/joinride/:ride_id", (req, res) => {
         'r.start_city',
         'r.start_zip',
         'r.student_driver',
-        'r.date_leaving',
-        'r.time_leaving',
+        'r.start_date',
+        'r.start_time',
         'r.end_city',
         'r.end_state',
         'r.end_zip',
@@ -295,7 +296,7 @@ app.get('/account', isAuthenticated, (req, res) => {
         'sec.username'
     )
         .from('student as s')
-        .join('security as sec', 'sec.student_id', 's.student_id')
+        .join('security_table as sec', 'sec.student_id', 's.student_id')
         .where('s.student_id', req.session.user.id)
         .then(results => {
             res.render('account', { allAccounts: results, user: req.session.user });
@@ -315,7 +316,7 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
             }
 
             knex.transaction(trx => {
-                return trx('security')
+                return trx('security_table')
                     .where('student_id', req.session.user.id)
                     .update({
                         username: req.body.username,
@@ -340,7 +341,7 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
     }
     else {
         knex.transaction(trx => {
-            return trx('security')
+            return trx('security_table')
                 .where('student_id', req.session.user.id)
                 .update({
                     username: req.body.username
